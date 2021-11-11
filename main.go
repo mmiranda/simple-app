@@ -2,15 +2,28 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	http.HandleFunc("/", handler)
+	r := gin.Default()
+	r.GET("/", func(c *gin.Context) {
+		fmt.Println("Request started: wait 40 seconds to proceed...")
+		time.Sleep(40 * time.Second)
+		fmt.Println("Request done!")
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
-	http.ListenAndServe(":8090", nil)
-}
+	r.GET("/ping", func(c *gin.Context) {
+		fmt.Println("health-check heartbeat")
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
-func handler(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("This is a simple response")
+	r.Run()
 }

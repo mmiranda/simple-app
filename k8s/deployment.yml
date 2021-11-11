@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: simple-app-deployment
+  namespace: simple-app
   labels:
     app: simple-app
 spec:
@@ -16,6 +17,6 @@ spec:
     spec:
       containers:
       - name: simple-app
-        image: simple-app:latest
+        image: ghcr.io/mmiranda/simple-app:latest
         ports:
         - containerPort: 8090
